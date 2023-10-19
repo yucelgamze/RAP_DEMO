@@ -1,0 +1,69 @@
+managed implementation in class zbp_gy_rap_demo_i unique;
+strict ( 1 );
+
+with draft;
+
+define behavior for ZGY_RAP_DEMO_I alias Student
+persistent table zgy_rap_demo_dt
+
+draft table zgy_rap_demoddt
+
+lock master
+total etag Locallastchangedat
+authorization master ( global, instance ) // global authorization eklendi.
+etag master Lastchangedat
+{
+  create;
+  update ( precheck );
+  delete;
+
+  // create butonunu association'a ekleme yöntemi:
+  association _academicres { create; with draft; }
+
+  field ( numbering : managed, readonly ) Id;
+  field ( readonly ) Genderdesc;
+  action ( features : instance, authorization : update ) setAdmitted result [1] $self;
+  validation validateAge on save { field Age; create; }
+
+  determination updateCourseDuration on save { field Course; }
+
+  draft action Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for zgy_rap_demo_dt
+    {
+      Id                 = Id;
+      firstname          = Firstname;
+      lastname           = Lastname;
+      age                = Age;
+      course             = Course;
+      courseduration     = Courseduration;
+      status             = Status;
+      gender             = Gender;
+      dob                = Dob;
+      Lastchangedat      = lastchangedat;
+      Locallastchangedat = locallastchangedat;
+    }
+}
+
+define behavior for ZGY_RAP_DEMO_I_AR alias AcademicResult
+persistent table zgy_rap_demo_dt2
+draft table zgy_rap_demoddt2
+lock dependent by _student
+authorization dependent by _student
+etag master Lastchangedat
+{
+
+  update;
+  delete;
+
+  association _student { with draft; }
+
+  field ( readonly ) id;
+  field ( readonly ) course_desc;
+  field ( readonly ) semester_desc;
+  field ( readonly ) semres_desc;
+}

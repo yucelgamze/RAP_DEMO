@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service Definition for Student'
+define service ZGY_RAP_DEMO_SD {
+  expose ZGY_RAP_DEMO_C    as Student;
+  expose ZGY_RAP_DEMO_C_AR as AcademicResult;
+}

@@ -1,0 +1,58 @@
+@Metadata.layer: #PARTNER
+@UI:
+{
+    headerInfo : {
+                    typeName: 'Academic Result Detail',
+                    typeNamePlural: 'Academic Result Details',
+                    title:{type: #STANDARD,label: 'Academic Result Detail',value: 'Id' },
+                    description :{ type: #STANDARD,label: 'Academic Result Detail' }
+                 },
+       presentationVariant: [{sortOrder: [{ by: 'Semester',direction: #ASC }] }]
+}
+@Search.searchable: true
+annotate view ZGY_RAP_DEMO_C_AR with
+{
+  @UI.facet: [{ id: 'Academic',
+            label: 'Academic',
+            purpose: #STANDARD,
+            type: #IDENTIFICATION_REFERENCE,
+            position: 10 }]
+
+  @UI: { identification: [{position: 10,label: 'Student ID' }] }//place to be displayed on detail page
+  @UI.hidden: true
+  Id;
+  @UI: { lineItem: [{position: 20,label: 'Course',importance: #HIGH }], //Line to be displayed on table
+        identification: [{position: 20,label: 'Course' }] }//place to be displayed on detail page
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity :{ name: 'ZGY_RAP_DEMO_course',element: 'Value' },
+  additionalBinding: [{ localElement: 'course_desc',element: 'text' }]
+   }]
+  Course;
+  @UI: { lineItem: [{position: 30,label: '',importance: #HIGH }],
+         identification: [{position: 30,label: '' }] }
+  @Search.defaultSearchElement: true
+  course_desc;
+  @UI: { lineItem: [{position: 40,label: 'Semester',importance: #HIGH }], 
+         identification: [{position: 40,label: 'Semester' }] }
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity :{ name: 'ZGY_RAP_DEMO_Sem',element: 'Value' },
+ additionalBinding: [{ localElement: 'semester_desc',element: 'text' }]
+  }]
+  Semester;
+  @UI: { lineItem: [{position: 50,label: '',importance: #HIGH }], 
+         identification: [{position: 50,label: '' }] }
+  @Search.defaultSearchElement: true
+  semester_desc;
+  @UI: { lineItem: [{position: 60,label: 'Status',importance: #HIGH }], 
+         identification: [{position: 60,label: 'Status' }] }
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity :{ name: 'ZGY_RAP_DEMO_SEMRES',element: 'Value' },
+  additionalBinding: [{ localElement: 'semres_desc',element: 'text' }]
+   }]
+  Semresult;
+  @UI: { lineItem: [{position: 70, label: '',importance: #HIGH  }], 
+         identification: [{position: 70,label: '' }] }
+  @Search.defaultSearchElement: true
+  semres_desc;
+
+}
